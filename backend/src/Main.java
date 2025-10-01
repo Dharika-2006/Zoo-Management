@@ -1,13 +1,16 @@
 import models.*;
 import services.*;
-import java.util.Scanner;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     // Services to manage logic
     private static final AnimalService animalService = new AnimalService();
     private static final EnclosureService enclosureService = new EnclosureService();
-    private static final StaffService staffService = new StaffService(); // Manages staff creation and storage
+    private static final StaffService staffService = new StaffService();
     
     // User object for login validation
     private static final Admin admin = new Admin("admin", "123");
@@ -16,7 +19,6 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         System.out.println("=== Welcome to Zoo Management System ===");
         
-
         while (true) {
             System.out.println("\nSelect your role: (1) Admin (2) Doctor (3) Zookeeper (4) Exit");
             int roleChoice = sc.nextInt();
@@ -36,7 +38,7 @@ public class Main {
                     }
                     break;
                 
-               case 2: // CORRECTED: Dynamic Doctor Login
+                case 2:
                     System.out.print("Enter doctor username: ");
                     String docUsername = sc.nextLine();
                     System.out.print("Enter doctor password: ");
@@ -52,7 +54,7 @@ public class Main {
                     }
                     break;
 
-                case 3: // CORRECTED: Dynamic Zookeeper Login
+                case 3:
                     System.out.print("Enter zookeeper username: ");
                     String zooUsername = sc.nextLine();
                     System.out.print("Enter zookeeper password: ");
@@ -69,6 +71,7 @@ public class Main {
                     break;
 
                 case 4:
+                    saveAnimalReport(); // Save the text file report on exit
                     System.out.println("Exiting...");
                     return;
                 default:
@@ -89,7 +92,7 @@ public class Main {
             } else if (areaChoice == 2) {
                 runStaffManagementMenu(sc);
             } else if (areaChoice == 3) {
-                return; // Go back to role selection
+                return; 
             } else {
                 System.out.println("Invalid choice.");
             }
@@ -112,25 +115,20 @@ public class Main {
             try {
                  switch (choice) {
                     case 1: // Add animal
-                        System.out.print("Add to existing species or new? (existing/new): ");
-                        String addType = sc.nextLine();
                         System.out.print("Enter species name (e.g., Lion): ");
                         String name = sc.nextLine();
                         
-                        boolean speciesExists = animalService.getAllAnimals().stream().anyMatch(a -> a.getName().equalsIgnoreCase(name));
-
-                        if (addType.equalsIgnoreCase("existing") && !speciesExists) {
-                            System.out.println("Species '" + name + "' does not exist. Please add as 'new' first.");
-                            break;
-                        }
-
+                        // ADDED BACK: Prompt for the animal type
                         System.out.print("Enter animal type (Mammal/Reptile): ");
                         String type = sc.nextLine();
+
                         System.out.print("Enter age: ");
                         int age = sc.nextInt();
                         sc.nextLine();
-
+                        
+                        // MODIFIED: Calling createAnimal with three arguments
                         Animal newAnimal = animalService.createAnimal(type, name, age);
+
                         if (newAnimal != null) {
                             System.out.println("Success! " + name + " (ID: " + newAnimal.getId() + ") was added to the zoo.");
                         } else {
@@ -139,20 +137,23 @@ public class Main {
                         break;
                     
                     case 2: // Remove animal
-                         System.out.print("Enter ID of animal to remove: ");
-                         int idToRemove = sc.nextInt();
-                         sc.nextLine();
-                         Animal animalToRemove = animalService.search(idToRemove);
-                         
-                         for (Enclosure enc : enclosureService.getAllEnclosures()) {
-                             if (enc.getAnimals().contains(animalToRemove)) {
-                                 enc.removeAnimal(animalToRemove);
-                                 break;
-                             }
-                         }
-                         animalService.removeAnimal(animalToRemove);
-                         System.out.println("Animal " + animalToRemove.getName() + " removed from the zoo.");
-                         break;
+    System.out.print("Enter ID of animal to remove: ");
+    int idToRemove = sc.nextInt();
+    sc.nextLine();
+    Animal animalToRemove = animalService.search(idToRemove);
+    
+    // This loop now works correctly because Enclosure.removeAnimal() is fixed
+    for (Enclosure enc : enclosureService.getAllEnclosures()) {
+        if (enc.getAnimals().contains(animalToRemove)) {
+            enc.removeAnimal(animalToRemove);
+            System.out.println(animalToRemove.getName() + " has been removed from enclosure " + enc.getType() + ".");
+            break; // Exit the loop once the animal is found and removed
+        }
+    }
+    
+    animalService.removeAnimal(animalToRemove);
+    System.out.println("Animal " + animalToRemove.getName() + " permanently removed from the zoo.");
+    break;
 
                     case 3: // Assign animal
                         System.out.print("Enter Animal ID to assign: ");
@@ -309,6 +310,40 @@ public class Main {
             zookeeper.manageFeeding(animal);
         } catch (AnimalNotFoundException e) {
             System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    private static void saveAnimalReport() {
+        try (PrintWriter writer = new PrintWriter("zoo_report.txt", "UTF-8")) {
+            System.out.println("Saving animal report to zoo_report.txt...");
+            writer.println("======= ZOO ANIMAL HEALTH REPORT =======");
+            writer.println("Generated on: " + java.time.LocalDateTime.now());
+            writer.println();
+            List<Animal> animals = animalService.getAllAnimals();
+            if (animals.isEmpty()) {
+                writer.println("No animals in the zoo.");
+            } else {
+                for (Animal animal : animals) {
+                    writer.println("----------------------------------------");
+                    writer.println("ANIMAL ID:   " + animal.getId());
+                    writer.println("Name:        " + animal.getName());
+                    writer.println("Age:         " + animal.getAge());
+                    writer.println("Status:      " + animal.getHealthStatus());
+                    
+                    HealthRecord record = animal.getHealthRecord();
+                    if (record != null && record.getRecords() != null) {
+                        writer.println("\n  --- Health History ---");
+                        for (String entry : record.getRecords()) {
+                            writer.println("  " + entry);
+                        }
+                    }
+                    writer.println("----------------------------------------");
+                    writer.println();
+                }
+            }
+            System.out.println("Report saved successfully!");
+        } catch (IOException e) {
+            System.err.println("An error occurred while writing the report file: " + e.getMessage());
         }
     }
 }

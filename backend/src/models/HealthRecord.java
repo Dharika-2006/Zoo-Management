@@ -26,4 +26,7 @@ public class HealthRecord {
             System.out.println(record);
         }
     }
+    public List<String> getRecords() {
+        return records;
+    }
 }

@@ -1,0 +1,34 @@
+======= ZOO ANIMAL HEALTH REPORT =======
+Generated on: 2025-10-01T19:24:34.398122300
+
+----------------------------------------
+ANIMAL ID:   1
+Name:        Lion
+Age:         34
+Status:      Healthy
+
+  --- Health History ---
+  [2025-10-01 19:19:35] Health record created.
+  [2025-10-01 19:24:06] Routine mammal checkup performed.
+----------------------------------------
+
+----------------------------------------
+ANIMAL ID:   2
+Name:        Lion
+Age:         4
+Status:      Healthy
+
+  --- Health History ---
+  [2025-10-01 19:19:44] Health record created.
+----------------------------------------
+
+----------------------------------------
+ANIMAL ID:   4
+Name:        Snake
+Age:         3
+Status:      Healthy
+
+  --- Health History ---
+  [2025-10-01 19:23:12] Health record created.
+----------------------------------------
+

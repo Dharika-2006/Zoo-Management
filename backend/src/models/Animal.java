@@ -1,8 +1,4 @@
 package models;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class Animal implements FeedingRoutine {
     private static int idCounter = 1;
     private int id;
