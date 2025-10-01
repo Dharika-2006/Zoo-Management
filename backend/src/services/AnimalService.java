@@ -7,6 +7,12 @@ import java.util.List;
 public class AnimalService {
     private List<Animal> allAnimals = new ArrayList<>();
 
+    public AnimalService() {
+        System.out.println("Initializing AnimalService with default animals...");
+        allAnimals.add(new Mammal("Lion", 5));  
+        allAnimals.add(new Reptile("Snake", 3));
+        allAnimals.add(new Mammal("Zebra", 4));   
+    }
     // Overloading: Search by ID
     public Animal search(int id) throws AnimalNotFoundException {
         for (Animal animal : allAnimals) {

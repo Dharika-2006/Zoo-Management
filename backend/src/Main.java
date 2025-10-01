@@ -19,6 +19,21 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         System.out.println("=== Welcome to Zoo Management System ===");
         
+        try {
+            System.out.println("Performing initial animal-to-enclosure assignments...");
+            Enclosure savannah = enclosureService.findEnclosureById(1);
+            Enclosure reptileHouse = enclosureService.findEnclosureById(2);
+            Animal Lion = animalService.search(1);
+            Animal Snake = animalService.search(2);
+            Animal Zebra = animalService.search(3);
+            
+            if (savannah != null && Lion != null) savannah.addAnimal(Lion);
+            if (reptileHouse != null && Snake != null) reptileHouse.addAnimal(Snake);
+            if (savannah != null && Zebra != null) savannah.addAnimal(Zebra);
+            
+        } catch (AnimalNotFoundException e) {
+            System.err.println("Error during initial assignment: " + e.getMessage());
+        }
         while (true) {
             System.out.println("\nSelect your role: (1) Admin (2) Doctor (3) Zookeeper (4) Exit");
             int roleChoice = sc.nextInt();

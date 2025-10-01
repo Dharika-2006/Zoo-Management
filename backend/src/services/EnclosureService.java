@@ -10,6 +10,12 @@ import java.util.HashMap;
 public class EnclosureService {
     private List<Enclosure> allEnclosures = new ArrayList<>();
 
+     public EnclosureService() {
+        System.out.println("Initializing EnclosureService with default enclosures...");
+        allEnclosures.add(new Enclosure("Savannah")); // Will get ID 1
+        allEnclosures.add(new Enclosure("Reptile House"));      // Will get ID 2
+    }
+
     public Enclosure createEnclosure(String type) {
         Enclosure enclosure = new Enclosure(type);
         allEnclosures.add(enclosure);
