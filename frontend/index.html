@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zoo Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Zoo Management System</h1>
+
+    <div id="roleSelection" class="panel">
+        <h2>Select Your Role</h2>
+        <button onclick="showPanel('admin')">Admin</button>
+        <button onclick="showPanel('doctor')">Doctor</button>
+        <button onclick="showPanel('zookeeper')">Zookeeper</button>
+    </div>
+
+    <div id="adminPanel" class="panel" style="display:none;">
+        <h2>Admin Portal</h2>
+        <button onclick="showPanel('roleSelection')">Back to Role Selection</button>
+        <hr>
+        <div id="adminAreaSelection">
+            <h3>Select Management Area</h3>
+            <button onclick="showSubPanel('animalManagementPanel')">Animal Management</button>
+            <button onclick="showSubPanel('staffManagementPanel')">Staff Management</button>
+        </div>
+    </div>
+
+    <div id="animalManagementPanel" class="panel" style="display:none;">
+        <h3>Animal Management</h3>
+        <button onclick="showPanel('admin')">Back to Admin Areas</button>
+        <hr>
+        <button onclick="showActionDiv('addAnimalDiv')">Add Animal</button>
+        <button onclick="showActionDiv('removeAnimalDiv')">Remove Animal</button>
+        <button onclick="showActionDiv('assignAnimalDiv')">Assign Animal to Enclosure</button>
+        <button onclick="showActionDiv('addEnclosureDiv')">Add Enclosure</button>
+        <button onclick="showActionDiv('viewAnimalsDiv')">View Animals</button>
+        <button onclick="showActionDiv('viewEnclosuresDiv')">View Enclosures</button>
+
+        <div id="addAnimalDiv" class="subpanel" style="display:none;">
+            <h4>Add Animal</h4>
+            <select id="addAnimalOption">
+                <option value="existing">Add to Existing Species</option>
+                <option value="new">Add New Species</option>
+            </select>
+            <input type="text" id="animalName" placeholder="Species Name (e.g., Lion)">
+            <input type="text" id="animalType" placeholder="Type (e.g., Mammal)">
+            <input type="number" id="animalAge" placeholder="Age">
+            <button onclick="addAnimal()">Add</button>
+        </div>
+        <div id="removeAnimalDiv" class="subpanel" style="display:none;">
+            <h4>Remove Animal</h4>
+            <input type="number" id="removeAnimalId" placeholder="Animal ID">
+            <button onclick="removeAnimal()">Remove</button>
+        </div>
+        <div id="assignAnimalDiv" class="subpanel" style="display:none;">
+            <h4>Assign Animal to Enclosure</h4>
+            <input type="number" id="assignAnimalId" placeholder="Animal ID">
+            <input type="number" id="assignEnclosureId" placeholder="Enclosure ID">
+            <button onclick="assignAnimal()">Assign</button>
+        </div>
+        <div id="addEnclosureDiv" class="subpanel" style="display:none;">
+            <h4>Add Enclosure</h4>
+            <input type="text" id="enclosureType" placeholder="Enclosure Type (e.g., Savannah)">
+            <button onclick="addEnclosure()">Add</button>
+        </div>
+        <div id="viewAnimalsDiv" class="subpanel" style="display:none;">
+            <h4>All Animals</h4>
+            <ul id="animalList"></ul>
+        </div>
+        <div id="viewEnclosuresDiv" class="subpanel" style="display:none;">
+            <h4>All Enclosures</h4>
+            <ul id="enclosureList"></ul>
+        </div>
+    </div>
+    
+    <div id="staffManagementPanel" class="panel" style="display:none;">
+        <h3>Staff Management</h3>
+        <button onclick="showPanel('admin')">Back to Admin Areas</button>
+        <hr>
+        <p style="color: #555;">Staff management features (add, remove, assign) would go here.</p>
+    </div>
+
+    <div id="doctorPanel" class="panel" style="display:none;">
+        <h2>Doctor Portal</h2>
+        <button onclick="showPanel('roleSelection')">Back to Role Selection</button>
+        <hr>
+        <input type="number" id="checkupAnimalId" placeholder="Enter Animal ID for Checkup">
+        <button onclick="performCheckup()">Perform Checkup</button>
+        <p id="doctorMessage"></p>
+    </div>
+    <div id="zookeeperPanel" class="panel" style="display:none;">
+        <h2>Zookeeper Portal</h2>
+        <button onclick="showPanel('roleSelection')">Back to Role Selection</button>
+        <hr>
+        <input type="number" id="feedAnimalId" placeholder="Enter Animal ID to Feed">
+        <button onclick="feedAnimal()">Feed Animal</button>
+        <p id="zookeeperMessage"></p>
+    </div>
+
+    <div id="staffManagementPanel" class="panel" style="display:none;">
+        <h3>Staff Management</h3>
+        <button onclick="showPanel('admin')">Back to Admin Areas</button>
+        <hr>
+        <button onclick="showActionDivForStaff('addStaffDiv')">Add Staff</button>
+        <button onclick="showActionDivForStaff('removeStaffDiv')">Remove Staff</button>
+        <button onclick="showActionDivForStaff('assignStaffDiv')">Assign Staff to Enclosure</button>
+        <button onclick="showActionDivForStaff('viewStaffDiv')">View All Staff</button>
+
+        <div id="addStaffDiv" class="subpanel" style="display:none;">
+            <h4>Add Staff Member</h4>
+            <select id="staffRole">
+                <option value="Doctor">Doctor</option>
+                <option value="Zookeeper">Zookeeper</option>
+            </select>
+            <input type="text" id="staffName" placeholder="Staff Name">
+            <input type="text" id="staffUsername" placeholder="Username">
+            <input type="text" id="staffPassword" placeholder="Password">
+            <button onclick="addStaff()">Add Staff</button>
+        </div>
+        <div id="removeStaffDiv" class="subpanel" style="display:none;">
+            <h4>Remove Staff Member</h4>
+            <input type="number" id="removeStaffId" placeholder="Staff ID">
+            <button onclick="removeStaff()">Remove Staff</button>
+        </div>
+        <div id="assignStaffDiv" class="subpanel" style="display:none;">
+            <h4>Assign Staff to Enclosure</h4>
+            <input type="number" id="assignStaffId" placeholder="Staff ID">
+            <input type="number" id="assignStaffEnclosureId" placeholder="Enclosure ID">
+            <button onclick="assignStaff()">Assign Staff</button>
+        </div>
+        <div id="viewStaffDiv" class="subpanel" style="display:none;">
+            <h4>All Staff Members</h4>
+            <ul id="staffList"></ul>
+        </div>
+    </div
+</body>
+<script src="app.js"></script>
+</html>
