@@ -1,0 +1,90 @@
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff; /* light blue background */
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+/* Headers */
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+h2, h3, h4 {
+    text-align: center;
+    color: #34495e;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+/* Input fields, select boxes, and buttons */
+input, select, button {
+    display: block;
+    width: 90%;
+    max-width: 300px;
+    margin: 10px auto;
+    padding: 8px 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+/* Panels */
+.panel {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #aaa;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Subpanels for admin actions */
+.subpanel {
+    margin-top: 15px;
+    padding: 15px;
+    border-top: 1px dashed #aaa;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+/* Lists */
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+ul li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* Messages */
+p {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .panel, input, select, button {
+        width: 95%;
+    }
+}

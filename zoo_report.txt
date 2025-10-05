@@ -1,0 +1,44 @@
+======= ZOO ANIMAL HEALTH REPORT =======
+Generated on: 2025-10-03T21:45:52.493392700
+
+----------------------------------------
+ANIMAL ID:   2
+Name:        Snake
+Age:         3
+Status:      Healthy
+
+  --- Health History ---
+  [2025-10-03 21:14:05] Health record created.
+  [2025-10-03 21:42:22] Routine reptile checkup performed.
+----------------------------------------
+
+----------------------------------------
+ANIMAL ID:   3
+Name:        Zebra
+Age:         4
+Status:      Healthy
+
+  --- Health History ---
+  [2025-10-03 21:14:05] Health record created.
+----------------------------------------
+
+----------------------------------------
+ANIMAL ID:   4
+Name:        gorilla
+Age:         15
+Status:      Healthy
+
+  --- Health History ---
+  [2025-10-03 21:17:04] Health record created.
+----------------------------------------
+
+----------------------------------------
+ANIMAL ID:   5
+Name:        pig
+Age:         10
+Status:      Healthy
+
+  --- Health History ---
+  [2025-10-03 21:45:07] Health record created.
+----------------------------------------
+
